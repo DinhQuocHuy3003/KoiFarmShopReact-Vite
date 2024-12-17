@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useStore from "../app/store";
 import { useEffect, useState } from "react";
-import NavBar from "../features/common/NavBar";
 import { borderRight, padding } from "@mui/system";
 import { Button, Grid, Typography } from "@mui/material";
 
@@ -20,7 +19,6 @@ export default function ProfileLayout() {
 
   return (
     <>
-      <NavBar />
       <Grid container sx={{ height: "100vh" }}>
         <Grid
           item

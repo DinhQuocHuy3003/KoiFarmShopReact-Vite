@@ -3,8 +3,6 @@ import { immer } from "zustand/middleware/immer";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { createKoiSlice } from "./KoiSlice";
 import { createUserSlice } from "./UserSlice";
-import { createConsignmentSlice} from "./ConsignmentSlice";
-import { createInventorySlice } from "./InventorySlice";
 
 const useStore = create(
   devtools(
@@ -12,9 +10,7 @@ const useStore = create(
       immer((set) => ({
         ...createKoiSlice(set),
         ...createUserSlice(set),
-        ...createConsignmentSlice(set),
-        ...createInventorySlice(set),
-        
+
         reset: () =>
           set((state) => {
             if (state.auth !== false || state.userInfo !== null) {
@@ -24,8 +20,8 @@ const useStore = create(
             state.response = null;
             state.error = null;
             state.userProfile = null;
-            state.fishList = null;
-            state.fishtDetail = null;
+            state.isDriverLogin = false;
+            state.accountList = null;
             }
           }),
 

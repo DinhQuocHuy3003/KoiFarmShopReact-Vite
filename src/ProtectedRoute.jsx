@@ -1,18 +1,35 @@
 import { Navigate } from "react-router-dom";
 import useStore from "./app/store";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 const ProtectedRoute = ({ roles, element }) => {
   const userInfo = useStore((state) => state.userInfo);
   const auth = useStore((state) => state.auth);
 
-  console.log("User Role:", userInfo?.account?.data?.role);
+  const token = Cookies.get("token");
+  if (!token) {
+    console.error("Token not found. Redirecting to login...");
+    return <Navigate to="/login" />;
+  }
+
+  let decoded;
+  try {
+    decoded = jwtDecode(token);
+  } catch (error) {
+    console.error("Invalid token:", error.message);
+    return <Navigate to="/login" />;
+  }
+  
+  const role = decoded.Role;
+  console.log("User Role Protected:", role);
 
   if (!auth) {
     return <Navigate to="/login" />;
   }
 
-  if (!roles.includes(userInfo?.account?.data?.role)) {
+  if (!roles.includes(role)) {
     return <Navigate to="/access-denied" />;
   }
 
