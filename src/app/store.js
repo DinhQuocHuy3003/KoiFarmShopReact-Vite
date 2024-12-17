@@ -3,6 +3,7 @@ import { immer } from "zustand/middleware/immer";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { createKoiSlice } from "./KoiSlice";
 import { createUserSlice } from "./UserSlice";
+import { createKoiSizeSlice } from "./KoiSizeSlice";
 
 const useStore = create(
   devtools(
@@ -10,7 +11,7 @@ const useStore = create(
       immer((set) => ({
         ...createKoiSlice(set),
         ...createUserSlice(set),
-
+        ...createKoiSizeSlice(set),
         reset: () =>
           set((state) => {
             if (state.auth !== false || state.userInfo !== null) {

@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 import EmptyLayout from "./layouts/EmptyLayout";
 import HomeLayout from "./layouts/HomeLayout";
-
+import GetEstimate from "./features/order/bookingOrder/getEstimate/getEstimate";
 import Home from "./pages/Home/Home";
 import NotFound from "./pages/NotFound";
 import Login from "./features/auth/Login/Login";
@@ -74,6 +74,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="service" element={<Service />} />
+          <Route path="get-estimate" element={<GetEstimate />} />
         </Route>
 
         <Route

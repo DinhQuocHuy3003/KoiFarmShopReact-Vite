@@ -109,7 +109,7 @@ export const createUserSlice = (set) => ({
     }
   },
 
-  getAllAccount: async () => {
+  getAllAccounts: async () => {
     setLoading(set, true);
     try {
       const { data } = await axiosClient.get(

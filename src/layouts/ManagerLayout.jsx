@@ -1,9 +1,17 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { Button, Grid, Typography } from "@mui/material";
 import { useState } from "react";
+import useStore from "../app/store";
 export default function ManagerLayout() {
   const navigate = useNavigate();
   const [showConsignmentButton, setShowConsignmentButton] = useState(false);
+
+  const logout = useStore((state) => state.logout);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  }
   return (
     <>
       <Grid container sx={{ height: "100vh" }}>
@@ -152,6 +160,10 @@ export default function ManagerLayout() {
                 }}
               >
                 View Rejected Requests
+              </Button>
+
+              <Button onClick={handleLogout}>
+                Logout
               </Button>
             </>
           )}
