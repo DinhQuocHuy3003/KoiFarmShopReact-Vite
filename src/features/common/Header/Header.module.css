@@ -1,6 +1,7 @@
 /* Header.module.css */
 
 .headerContainer {
+  height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,7 +29,7 @@
     font-size: 28px;
     font-weight: bold;
     color: white;
-    padding-top: 5px;
+    
     letter-spacing: 1px;
   }
   

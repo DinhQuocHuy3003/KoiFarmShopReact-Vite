@@ -63,20 +63,20 @@ const GetEstimate = () => {
         const size = koiSizes.find((size) => size.id === key);
         if (!size) return null;
 
-        return(
-        <InputNumber
-          className="koi-input"
-          min={0} // Không cho phép số âm
-          onChange={(value) => {
-            const safeValue = value < 0 ? 0 : value; // Kiểm tra giá trị nhập vào
-            setKoiCounts((prev) => ({
-              ...prev,
-              [size.id]: safeValue || 0, 
-            }));
-          }}
-          placeholder="0"
-          value={koiCounts[size.id] || 0} 
-        />
+        return (
+          <InputNumber
+            className="koi-input"
+            min={0} // Không cho phép số âm
+            onChange={(value) => {
+              const safeValue = value < 0 ? 0 : value; // Kiểm tra giá trị nhập vào
+              setKoiCounts((prev) => ({
+                ...prev,
+                [size.id]: safeValue || 0,
+              }));
+            }}
+            placeholder="0"
+            value={koiCounts[size.id] || 0}
+          />
         );
       },
     },
@@ -134,105 +134,108 @@ const GetEstimate = () => {
           <div
             style={{
               display: "flex",
-              gap: "30px",
-              marginTop: "30px",
+              gap: "20px",
               fontSize: "25px",
               padding: "20px",
+              flexWrap: "wrap",
+              alignContent: "flex-start",
+              justifyContent: "center"
             }}
           >
-            <Button
-              type="primary"
-              className="get-estimate-button"
-              onClick={calculateEstimate}
-            >
-              Get Estimate
-            </Button>
-            <Button type="primary" className="get-estimate-button"
+          <Button
+            type="primary"
+            className="get-estimate-button"
+            style={{backgroundColor: "green", borderBlockColor:"green"}}
+            onClick={calculateEstimate}
+          >
+            Get Estimate
+          </Button>
+          <Button type="primary" className="get-estimate-button"
             onClick={handleSubmit}>
-              Submit Booking Service
-            </Button>
-          </div>
-        </Col>
+            Submit Booking Service
+          </Button>
+        </div>
+      </Col>
 
-        {/* Right Side */}
-        {showCard && (
-          <Col xs={24} md={8} className="right-section">
-            {/* Card for Number of Boxes */}
-            <Card className="estimate-card">
-              <Title level={5} className="card-title">
-                Number of boxes you need
-              </Title>
-              <Text className="box-info">
-                {estimate.boxes.large} large boxes, {estimate.boxes.medium}{" "}
-                medium boxes, {estimate.boxes.extraLarge} extra large boxes and{" "}
-                {estimate.boxes.specialLarge} special large boxes
-              </Text>
-            </Card>
-            <Card
-              className="cost-card"
-              style={{
-                marginTop: "10px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="boxcost.png"
-                alt="Box Price"
-                className="box-image"
-                style={{ width: "100px", height: "auto" }}
-              />
-              <Title level={5}>Box Cost</Title>
-              <Text strong className="cost-amount">
-                {formatVND(estimate.cost)}
-              </Text>
-            </Card>
-            {/* Card for Total Shipping Cost */}
-            <Card
-              className="cost-card"
-              style={{
-                marginTop: "10px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="truck.png"
-                alt="Shipping Cost Illustration"
-                className="cost-image"
-                style={{ width: "100px", height: "auto" }}
-              />
-              <Title level={5}>Shipping cost</Title>
-              <Text strong className="cost-amount">
-                {formatVND(estimate.cost)}
-              </Text>
-            </Card>
-            <Card
-              className="cost-card"
-              style={{
-                marginTop: "10px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="totalcost.png"
-                alt="Shipping Cost Illustration"
-                className="cost-image"
-                style={{ width: "100px", height: "auto" }}
-              />
-              <Title level={5}>Total Cost</Title>
-              <Text strong className="cost-amount">
-                {formatVND(estimate.cost)}
-              </Text>
-            </Card>
-          </Col>
-        )}
-      </Row>
-    </div>
+      {/* Right Side */}
+      {showCard && (
+        <Col xs={24} md={8} className="right-section">
+          {/* Card for Number of Boxes */}
+          <Card className="estimate-card">
+            <Title level={5} className="card-title">
+              Number of boxes you need
+            </Title>
+            <Text className="box-info">
+              {estimate.boxes.large} large boxes, {estimate.boxes.medium}{" "}
+              medium boxes, {estimate.boxes.extraLarge} extra large boxes and{" "}
+              {estimate.boxes.specialLarge} special large boxes
+            </Text>
+          </Card>
+          <Card
+            className="cost-card"
+            style={{
+              marginTop: "10px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="./boxcost.png"
+              alt="Box Price"
+              className="box-image"
+              style={{ width: "60px", height: "auto" }}
+            />
+            <Title level={5}>Box Cost</Title>
+            <Text strong className="cost-amount">
+              {formatVND(estimate.cost)}
+            </Text>
+          </Card>
+          {/* Card for Total Shipping Cost */}
+          <Card
+            className="cost-card"
+            style={{
+              marginTop: "10px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="./truck.png"
+              alt="Shipping Cost Illustration"
+              className="cost-image"
+              style={{ width: "60px", height: "auto" }}
+            />
+            <Title level={5}>Shipping cost</Title>
+            <Text strong className="cost-amount">
+              {formatVND(estimate.cost)}
+            </Text>
+          </Card>
+          <Card
+            className="cost-card"
+            style={{
+              marginTop: "10px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="./totalcost.png"
+              alt="Shipping Cost Illustration"
+              className="cost-image"
+              style={{ width: "60px", height: "auto" }}
+            />
+            <Title level={5}>Total Cost</Title>
+            <Text strong className="cost-amount">
+              {formatVND(estimate.cost)}
+            </Text>
+          </Card>
+        </Col>
+      )}
+    </Row>
+    </div >
   );
 };
 
