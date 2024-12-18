@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate  } from "react-router-dom";
 import {
   Table,
   InputNumber,
@@ -26,12 +26,14 @@ const GetEstimate = () => {
 
   const [showCard, setShowCard] = useState(false);
   const [estimate, setEstimate] = useState({ boxes: {}, cost: 0 });
+  const [isEstimateSubmitted, setIsEstimateSubmitted] = useState(false);
   const koiSizeList = useStore((state) => state.koiSizeList) || [];
   const getAllKoiSize = useStore((state) => state.getAllKoiSize);
   const isLoading = useStore((state) => state.isLoading);
   const koiSizes = Array.isArray(koiSizeList) ? koiSizeList : [];
   const getCreateOrderFish = useStore((state) => state.getCreateOrderFish);
 
+  const navigate = useNavigate();
   useEffect(() => {
     getAllKoiSize();
   }, [getAllKoiSize]);
@@ -66,6 +68,17 @@ const GetEstimate = () => {
     });
 
     setShowCard(true);
+    setIsEstimateSubmitted(true);
+  };
+
+  const handleBookingSubmit = () => {
+    if (!isEstimateSubmitted) {
+      alert("Please get the estimate before submitting the booking.");
+      return;
+    }
+
+    // Điều hướng đến trang thanh toán, truyền orderId qua URL
+    navigate(`/payment/${orderId}`);
   };
 
   useEffect(() => {
@@ -195,7 +208,7 @@ const GetEstimate = () => {
             <Button
               type="primary"
               className="get-estimate-button"
-              onClick={handleSubmit}
+              onClick={handleBookingSubmit}
             >
               Submit Booking Service
             </Button>

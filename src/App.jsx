@@ -20,6 +20,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AccessDenied from "./pages/AccessDenied";
 import CustomerLayout from "./layouts/CustomerLayout";
 import AddressDetail from "./features/order/bookingOrder/addressdetail/AddressDetail";
+import Payment from "./features/payment/Payment";
 
 import { jwtDecode } from "jwt-decode";
 import ShippingOptions from "./features/shipping/ShippingOptions";
@@ -83,6 +84,7 @@ export default function App() {
           <Route index element={<BookingOrder />} />
           <Route path="shippingoptions" element={<ShippingOptions />} />
           <Route path="addressdetail" element={<AddressDetail />} />
+          <Route path="payment/:id" element={<Payment />} />
         </Route>
 
         <Route

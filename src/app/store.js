@@ -6,6 +6,7 @@ import { createUserSlice } from "./UserSlice";
 import { createKoiSizeSlice } from "./KoiSizeSlice";
 import { createOrderSlice } from "./OrderSlice";
 import { createTransportSlice} from "./TransportSlice";
+import { createPaymentSlice } from "./PaymentSlice";
 const useStore = create(
   devtools(
     persist(
@@ -15,7 +16,8 @@ const useStore = create(
         ...createKoiSizeSlice(set),
         ...createTransportSlice(set),
         ...createOrderSlice(set),
-
+        ...createPaymentSlice(set),
+        
         reset: () =>
           set((state) => {
             if (state.auth !== false || state.userInfo !== null) {

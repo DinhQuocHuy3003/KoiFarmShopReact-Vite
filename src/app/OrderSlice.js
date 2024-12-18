@@ -2,12 +2,16 @@ import axiosClient from "../services/axiosClient";
 import { 
     API_GET_ORDER_FISH,
     API_CREATE_ORDER,
-    API_GET_ORDER_BY_ID
+    API_GET_ORDER_BY_ID,
+    API_UPDATE_STATUS_PAYMENT_TO_CASH,
+    API_UPDATE_STATUS_PAYMENT_TO_VN_PAY,
  } from "../constant";
 const initialState = {
     isLoading: false,
     error: null,
     setOrderId: null,
+    orderDetail: null,
+    response: null,
 };
 
 const setLoading = (set, isLoading) => set({ isLoading });
@@ -53,9 +57,54 @@ export const createOrderSlice = (set) => ({
         }
     },
 
-    // getOrderById: async () => {
-    //     try {
-            
-    //     }
-    // }
+    getOrderById: async (id) => {
+        setLoading(set, true);
+        try {
+            const { data } = await axiosClient.get(
+                API_GET_ORDER_BY_ID.replace("{id}", id)
+            );
+            console.log("get order by id:", data.result);
+            set({ orderDetail: data.result });
+        }
+        catch (error) {
+            setError(set, error);
+        }
+        finally {
+            setLoading(set, false);
+        }
+    },
+
+    updatePaymentToCash: async (id) => {
+        setLoading(set, true);
+        try{
+        const { data } = await axiosClient.put(
+            `${API_UPDATE_STATUS_PAYMENT_TO_CASH}?OrderId=${id}`
+        );
+        set({ response: data.result });
+        console.log(data.result);
+        }
+        catch (error) {
+            setError(set, error);
+        }
+        finally{
+            setLoading(set, false);
+        }
+    },
+
+    updateCashToPayment: async (id) => {
+        setLoading(set, true);
+        try{
+        const { data } = await axiosClient.put(
+            `${API_UPDATE_STATUS_PAYMENT_TO_VN_PAY}?OrderId=${id}`
+        );
+        set({ response: data.result });
+        console.log(data.result);
+        }
+        catch (error) {
+            setError(set, error);
+        }
+        finally{
+            setLoading(set, false);
+        }
+    },
 })

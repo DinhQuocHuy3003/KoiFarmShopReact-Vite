@@ -61,7 +61,7 @@ export const API_MAP_DISTANCE = "Map/distance";
 //Order APIs 
 export const API_CREATE_ORDER = "Order/create-order";
 export const API_ORDER = "Order";
-export const API_GET_ORDER_BY_ID = "Order/GetOrderByIdAsyncAsync/";
+export const API_GET_ORDER_BY_ID = "Order/GetOrderByIdAsyncAsync/{id}";
 export const API_ORDER_CUSTOMER = "Order/Customer";
 export const API_UPDATE_ORDER_STATUS_DELIVERING = "Order/Update-Order-Status-Delivering";
 export const API_GET_ALL_PROCESSING_ORDER = "Order/GetAllProccessingOrder";
