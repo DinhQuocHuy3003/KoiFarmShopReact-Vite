@@ -1,7 +1,9 @@
+import GetInternational from "../features/shipping/getInternational/GetInternational";
 import axiosClient from "../services/axiosClient";
 import {
     API_GET_DOMESTIC,
     API_GET_LOCAL,
+    API_GET_INTERNATIONAL,
 } from "./../constant";
 
 const initialState = {
@@ -9,6 +11,7 @@ const initialState = {
     error: null,
     domestic: null,
     local: null,
+    international: null,
 };
 
 const setLoading = (set, isLoading) => set({ isLoading });
@@ -48,4 +51,21 @@ export const createTransportSlice = (set) => ({
             setLoading(set, false);
         }
     },
+
+    getInternational: async () => {
+        setLoading(set, true);
+        try {
+            const { data } = await axiosClient.get(
+                API_GET_INTERNATIONAL
+            );
+            set({ international: data })
+        }
+        catch (error) {
+            setError(set, error);
+        }
+        finally {
+            setLoading(set, false);
+        }
+
+    }
 })

@@ -82,6 +82,7 @@ export const API_PAYMENT_CALL_BACK = "Payment/callback";
 //Transport APIs
 export const API_GET_DOMESTIC = "TransportService/Domestic";
 export const API_GET_LOCAL = "TransportService/Local";
+export const API_GET_INTERNATIONAL = "TransportService/International"
 
 //User Account APIs
 export const API_GET_ALL_ACCOUNT = "UserAccount/GetAllAccountAsync";

@@ -4,7 +4,7 @@ import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { createKoiSlice } from "./KoiSlice";
 import { createUserSlice } from "./UserSlice";
 import { createKoiSizeSlice } from "./KoiSizeSlice";
-
+import { createTransportSlice} from "./TransportSlice";
 const useStore = create(
   devtools(
     persist(
@@ -12,6 +12,8 @@ const useStore = create(
         ...createKoiSlice(set),
         ...createUserSlice(set),
         ...createKoiSizeSlice(set),
+        ...createTransportSlice(set),
+
         reset: () =>
           set((state) => {
             if (state.auth !== false || state.userInfo !== null) {
@@ -31,10 +33,6 @@ const useStore = create(
             colorMode: state.colorMode === "light" ? "dark" : "light",
           })),
       })),
-      {
-        // name: "goods-storage",
-        // storage: createJSONStorage(() => sessionStorage),
-      }
     )
   )
 );

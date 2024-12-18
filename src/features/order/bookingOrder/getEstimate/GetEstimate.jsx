@@ -170,7 +170,7 @@ const GetEstimate = () => {
             <Button
               type="primary"
               className="get-estimate-button"
-              onClick={calculateEstimate}
+              onClick={handleSubmit}
             >
               Get Estimate
             </Button>
