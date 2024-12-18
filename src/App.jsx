@@ -47,16 +47,11 @@ export default function App() {
     const decoded = jwtDecode(token);
     const role = decoded.Role;
     console.log("Role App:", role);
-    if (role == "Manager") {
-      if (window.location.pathname !== "/manager") {
-        navigate("/manager");
-      }
-    } else if (role == "Customer")
-      if (window.location.pathname !== "/") {
-        {
-          navigate("/");
-        }
-      }
+    if (role == "Manager" && window.location.pathname == "/") {
+      navigate("/manager");
+    } else if (role == "Customer" && window.location.pathname == "/") {
+      navigate("/");
+    }
 
     setUserId(role);
   }, [navigate]);
@@ -74,7 +69,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="service" element={<Service />} />
-          <Route path="get-estimate" element={<GetEstimate />} />
+          <Route path="getestimate" element={<GetEstimate />} />
         </Route>
 
         <Route
@@ -84,7 +79,7 @@ export default function App() {
           }
         >
           <Route index element={<BookingOrder />} />
-          <Route path="booking-order" element={<BookingOrder />} />
+          <Route path="bookingorder" element={<BookingOrder />} />
         </Route>
 
         <Route

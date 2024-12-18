@@ -11,11 +11,17 @@ import {
 } from "antd";
 import "./GetEstimate.css";
 import useStore from "../../../../app/store";
+import { API_GET_ORDER_FISH } from "../../../../constant";
+import axiosClient from "../../../../services/axiosClient";
 
 const { Title, Text, Link } = Typography;
 
 const GetEstimate = () => {
   const [koiCounts, setKoiCounts] = useState({});
+  const [orderItemDetails, setOrderItemDetails] = useState([
+    {},
+  ]);
+
   const [showCard, setShowCard] = useState(false);
   const [estimate, setEstimate] = useState({ boxes: {}, cost: 0 });
   const koiSizeList = useStore((state) => state.koiSizeList) || [];
@@ -31,15 +37,40 @@ const GetEstimate = () => {
   const handleSubmit = async () => {
     const requestBody = {
       orderId: 1,
-      orderItemDetails: koiSizes.map((size) => ({
-        koiSizeId: size.koiSizeId,
-        quantity: koiCounts[size.koiSizeId] || 0,
-      })),
+      orderItemDetails: orderItemDetails,
     };
 
     console.log("Body request:", requestBody);
 
-    await getCreateOrderFish(requestBody);
+    // await getCreateOrderFish(requestBody);
+    var res = await axiosClient.post( API_GET_ORDER_FISH, requestBody );
+    console.log("res", res.data.result);
+    
+  };
+
+
+  useEffect(() => {
+    // Initialize orderItemDetails when koiSizes are loaded
+    if (koiSizes.length > 0) {
+      setOrderItemDetails(
+        koiSizes.map((size) => ({
+          koiSizeId: size.id,
+          quantity: 0, // Default quantity
+        }))
+      );
+    }
+  }, [koiSizes]);
+
+  const handleQuantityChange = (index, koiSizeId, value) => {
+    const safeValue = value < 0 ? 0 : value; // Prevent negative input
+
+
+    setOrderItemDetails((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, koiSizeId, quantity: safeValue } : item
+      )
+    );
+    console.log(orderItemDetails);
   };
 
   const columns = [
@@ -59,24 +90,20 @@ const GetEstimate = () => {
       title: "# of KOI",
       dataIndex: "key",
       key: "input",
-      render: (key) => {
+      render: (key, _, index) => {
         const size = koiSizes.find((size) => size.id === key);
-        if (!size) return null;
+        const orderItem = orderItemDetails[index];
 
-        return(
-        <InputNumber
-          className="koi-input"
-          min={0} // Không cho phép số âm
-          onChange={(value) => {
-            const safeValue = value < 0 ? 0 : value; // Kiểm tra giá trị nhập vào
-            setKoiCounts((prev) => ({
-              ...prev,
-              [size.id]: safeValue || 0, 
-            }));
-          }}
-          placeholder="0"
-          value={koiCounts[size.id] || 0} 
-        />
+        if (!size || !orderItem) return null;
+
+        return (
+          <InputNumber
+            className="koi-input"
+            min={0} // Prevent negative input
+            value={orderItem.quantity || 0}
+            onChange={(value) => handleQuantityChange(index, size.id, value)}
+            placeholder="0"
+          />
         );
       },
     },
@@ -148,7 +175,7 @@ const GetEstimate = () => {
               Get Estimate
             </Button>
             <Button type="primary" className="get-estimate-button"
-            onClick={handleSubmit}>
+              onClick={handleSubmit}>
               Submit Booking Service
             </Button>
           </div>

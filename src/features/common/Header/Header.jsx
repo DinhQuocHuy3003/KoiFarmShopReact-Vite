@@ -54,7 +54,7 @@
               {isDropdownOpen && (
                 <ul className={styles.dropdownList}>
                   <li className={styles.dropdownItem}>
-                    <Link to="/booking-order" className={styles.dropdownLink} onClick={() => console.log("Navigating to /customer/booking-order")}>
+                    <Link to="/bookingorder" className={styles.dropdownLink}>
                       Booking Order
                     </Link>
                   </li>
