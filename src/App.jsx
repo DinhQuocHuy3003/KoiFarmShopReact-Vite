@@ -19,8 +19,10 @@ import AccountManagement from "./features/manager/account/AccountManagement";
 import ProtectedRoute from "./ProtectedRoute";
 import AccessDenied from "./pages/AccessDenied";
 import CustomerLayout from "./layouts/CustomerLayout";
+import AddressDetail from "./features/order/bookingOrder/addressdetail/AddressDetail";
 
 import { jwtDecode } from "jwt-decode";
+import ShippingOptions from "./features/shipping/ShippingOptions";
 
 export default function App() {
   const colorMode = useStore((state) => state.colorMode);
@@ -79,7 +81,8 @@ export default function App() {
           }
         >
           <Route index element={<BookingOrder />} />
-          <Route path="bookingorder" element={<BookingOrder />} />
+          <Route path="shippingoptions" element={<ShippingOptions />} />
+          <Route path="addressdetail" element={<AddressDetail />} />
         </Route>
 
         <Route

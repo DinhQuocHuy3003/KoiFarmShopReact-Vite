@@ -54,7 +54,7 @@
               {isDropdownOpen && (
                 <ul className={styles.dropdownList}>
                   <li className={styles.dropdownItem}>
-                    <Link to="/bookingorder" className={styles.dropdownLink}>
+                    <Link to="/shippingoptions" className={styles.dropdownLink}>
                       Booking Order
                     </Link>
                   </li>

@@ -45,6 +45,7 @@ const GetEstimate = () => {
     // await getCreateOrderFish(requestBody);
     var res = await axiosClient.post( API_GET_ORDER_FISH, requestBody );
     console.log("res", res.data.result);
+    var result = res.data.result;
     
   };
 

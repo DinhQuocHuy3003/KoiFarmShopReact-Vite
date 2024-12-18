@@ -4,6 +4,7 @@ import { devtools, persist, createJSONStorage } from "zustand/middleware";
 import { createKoiSlice } from "./KoiSlice";
 import { createUserSlice } from "./UserSlice";
 import { createKoiSizeSlice } from "./KoiSizeSlice";
+import { createOrderSlice } from "./OrderSlice";
 import { createTransportSlice} from "./TransportSlice";
 const useStore = create(
   devtools(
@@ -13,6 +14,7 @@ const useStore = create(
         ...createUserSlice(set),
         ...createKoiSizeSlice(set),
         ...createTransportSlice(set),
+        ...createOrderSlice(set),
 
         reset: () =>
           set((state) => {
