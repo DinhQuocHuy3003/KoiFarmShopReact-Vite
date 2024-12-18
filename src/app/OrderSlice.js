@@ -2,6 +2,7 @@ import axiosClient from "../services/axiosClient";
 import { 
     API_GET_ORDER_FISH,
     API_CREATE_ORDER,
+    API_GET_ORDER_BY_ID
  } from "../constant";
 const initialState = {
     isLoading: false,
@@ -50,5 +51,11 @@ export const createOrderSlice = (set) => ({
         finally {
             setLoading(set, false);
         }
-    }
+    },
+
+    // getOrderById: async () => {
+    //     try {
+            
+    //     }
+    // }
 })

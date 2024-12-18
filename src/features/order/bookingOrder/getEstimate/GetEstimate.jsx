@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   Table,
   InputNumber,
@@ -18,9 +19,10 @@ const { Title, Text, Link } = Typography;
 
 const GetEstimate = () => {
   const [koiCounts, setKoiCounts] = useState({});
-  const [orderItemDetails, setOrderItemDetails] = useState([
-    {},
-  ]);
+  const [orderItemDetails, setOrderItemDetails] = useState([{}]);
+
+  const location = useLocation();
+  const orderId = location.state?.orderId;
 
   const [showCard, setShowCard] = useState(false);
   const [estimate, setEstimate] = useState({ boxes: {}, cost: 0 });
@@ -34,21 +36,37 @@ const GetEstimate = () => {
     getAllKoiSize();
   }, [getAllKoiSize]);
 
+  //get estimate
   const handleSubmit = async () => {
+    if (!orderId) {
+      alert("Order ID is missing!");
+      return;
+    }
+
     const requestBody = {
-      orderId: 1,
+      orderId: orderId,
       orderItemDetails: orderItemDetails,
     };
 
     console.log("Body request:", requestBody);
 
     // await getCreateOrderFish(requestBody);
-    var res = await axiosClient.post( API_GET_ORDER_FISH, requestBody );
+    var res = await axiosClient.post(API_GET_ORDER_FISH, requestBody);
     console.log("res", res.data.result);
     var result = res.data.result;
-    
-  };
 
+    setEstimate({
+      totalSlotsUsed: result.totalSlotsUsed || 0,
+      boxAllocations: result.boxAllocations || [],
+      totalBoxCost: result.totalBoxCost || 0,
+      totalTransportCost: result.totalTransportCost || 0,
+      totalPrice: result.totalPrice || 0,
+      lastBoxRemainingSlots: result.lastBoxRemainingSlots || 0,
+      suggestions: result.suggestions || [],
+    });
+
+    setShowCard(true);
+  };
 
   useEffect(() => {
     // Initialize orderItemDetails when koiSizes are loaded
@@ -64,7 +82,6 @@ const GetEstimate = () => {
 
   const handleQuantityChange = (index, koiSizeId, value) => {
     const safeValue = value < 0 ? 0 : value; // Prevent negative input
-
 
     setOrderItemDetails((prev) =>
       prev.map((item, i) =>
@@ -175,8 +192,11 @@ const GetEstimate = () => {
             >
               Get Estimate
             </Button>
-            <Button type="primary" className="get-estimate-button"
-              onClick={handleSubmit}>
+            <Button
+              type="primary"
+              className="get-estimate-button"
+              onClick={handleSubmit}
+            >
               Submit Booking Service
             </Button>
           </div>
@@ -188,14 +208,15 @@ const GetEstimate = () => {
             {/* Card for Number of Boxes */}
             <Card className="estimate-card">
               <Title level={5} className="card-title">
-                Number of boxes you need
+                Box Allocations
               </Title>
-              <Text className="box-info">
-                {estimate.boxes.large} large boxes, {estimate.boxes.medium}{" "}
-                medium boxes, {estimate.boxes.extraLarge} extra large boxes and{" "}
-                {estimate.boxes.specialLarge} special large boxes
-              </Text>
+              <ul>
+                {estimate.boxAllocations.map((box, index) => (
+                  <li key={index}>{box}</li>
+                ))}
+              </ul>
             </Card>
+
             <Card
               className="cost-card"
               style={{
@@ -213,9 +234,10 @@ const GetEstimate = () => {
               />
               <Title level={5}>Box Cost</Title>
               <Text strong className="cost-amount">
-                {formatVND(estimate.cost)}
+                {formatVND(estimate.totalBoxCost)}
               </Text>
             </Card>
+
             {/* Card for Total Shipping Cost */}
             <Card
               className="cost-card"
@@ -234,7 +256,7 @@ const GetEstimate = () => {
               />
               <Title level={5}>Shipping cost</Title>
               <Text strong className="cost-amount">
-                {formatVND(estimate.cost)}
+                {formatVND(estimate.totalTransportCost)}
               </Text>
             </Card>
             <Card
@@ -254,8 +276,22 @@ const GetEstimate = () => {
               />
               <Title level={5}>Total Cost</Title>
               <Text strong className="cost-amount">
-                {formatVND(estimate.cost)}
+                {formatVND(estimate.totalPrice)}
               </Text>
+            </Card>
+
+            <Card className="suggestion-card" style={{ marginTop: "10px" }}>
+              <Title level={5}>Suggestions</Title>
+              <ul>
+                {estimate.suggestions.map((suggestion, index) => (
+                  <li key={index}>{suggestion}</li>
+                ))}
+              </ul>
+            </Card>
+
+            <Card className="remaining-slots-card" style={{ marginTop: "10px" }}>
+            <Title level={5}>Last Box Remaining Slots</Title>
+            <Text strong>{estimate.lastBoxRemainingSlots} slots</Text>
             </Card>
           </Col>
         )}
